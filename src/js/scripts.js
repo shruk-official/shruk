@@ -96,10 +96,18 @@ async function handleContactForm(){
     const full_name = q('#fullName').value.trim();
     const email = q('#email').value.trim();
     const phone = q('#phone').value.trim();
+    const service = q('#service') ? q('#service').value.trim() : 'General Inquiry';
     const message = q('#message').value.trim();
 
     if(!/^\d{10}$/.test(phone)){
       showFormMessage(msgEl, 'Phone number must be exactly 10 digits.', false);
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = submitBtnDefault;
+      return;
+    }
+
+    if(!service){
+      showFormMessage(msgEl, 'Please select a service.', false);
       submitBtn.disabled = false;
       submitBtn.innerHTML = submitBtnDefault;
       return;
@@ -116,7 +124,7 @@ async function handleContactForm(){
     try{
       const supabase = createClient(url, key);
 
-      const payload = { full_name, email, phone, message };
+      const payload = { full_name, email, phone, service, message };
       const { error } = await supabase.from('contacts').insert([payload]);
       if(error){
         console.error('Supabase insert error', error);
