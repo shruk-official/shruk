@@ -5,18 +5,14 @@
       "use": "@vercel/static-build"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/projects",
-      "dest": "/src/pages/projects.html"
+      "source": "/projects",
+      "destination": "/src/pages/projects.html"
     },
     {
-      "src": "/contact",
-      "dest": "/src/pages/contact.html"
-    },
-    {
-      "src": "^/(.*)$",
-      "dest": "/$1"
+      "source": "/contact",
+      "destination": "/src/pages/contact.html"
     }
   ]
 }
