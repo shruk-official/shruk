@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SHRUK — Projects</title>
-  <script type="module" crossorigin src="/assets/scripts-DgNpXl1C.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/scripts-DnzIYWXq.css">
+  <script type="module" crossorigin src="/assets/scripts-BzDqkFiq.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/scripts-F2hyOerE.css">
 </head>
 <body>
   <header class="navbar">
@@ -35,15 +35,22 @@
           <div class="project-preview">
             <img
               class="photo-fade"
-              src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=600"
-              alt="Cafe interior with coffee setup and warm wooden counter"
+              src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600"
+              alt="Asian food restaurant interior with ramen bowls and sushi"
               loading="lazy"
             >
           </div>
-          <h3 class="project-title">Café Management System</h3>
-          <p class="project-desc">A fully functional café management web app — handling orders, menu management, and customer flow seamlessly</p>
-          <div class="project-tags"><span class="tag">Web App</span><span class="tag">Full Stack</span><span class="tag">Management System</span></div>
-          <button class="btn btn-primary" id="viewProjectBtn">View Project</button>
+          <h3 class="project-title">Umami House</h3>
+          <p class="project-desc">A modern Asian fusion restaurant website designed with a clean UI and interactive user experience</p>
+          <div class="project-features">
+            <div class="feature-item">🍜 Dynamic Menu Display — ramen, sushi, boba, and appetizers with descriptions and pricing</div>
+            <div class="feature-item">🎯 Category Filters & Smooth UI — interactive filtering and visually appealing dish cards</div>
+            <div class="feature-item">🎁 Loyalty Rewards System — tier-based membership (Bronze, Silver, Gold) with discounts</div>
+            <div class="feature-item">🤖 Custom Chatbot — fully JavaScript-based, no external APIs</div>
+            <div class="feature-item">🔐 Admin Portal — secure owner-only access to manage reservations, menu items, and memberships</div>
+          </div>
+          <div class="project-tags"><span class="tag">Web App</span><span class="tag">Full Stack</span><span class="tag">Restaurant</span><span class="tag">Admin Portal</span></div>
+          <button class="btn btn-primary" onclick="openProject()">View Project</button>
         </article>
 
         <article class="project-card dimmed">
@@ -106,15 +113,6 @@
     </div>
   </div>
 
-  <!-- Project View Overlay -->
-  <div id="projectOverlay" class="project-overlay" aria-hidden="true">
-    <div class="project-overlay__bar">
-      <span class="project-overlay__title">Café Management System</span>
-      <button class="project-overlay__close" aria-label="Close project view">✕</button>
-    </div>
-    <iframe id="projectIframe" class="project-overlay__iframe" src="" title="Project Preview"></iframe>
-  </div>
-
   <div id="mobileOverlay" class="mobile-overlay" aria-hidden="true">
     <button id="overlayClose" class="overlay-close" aria-label="Close menu">×</button>
     <nav class="overlay-nav">
@@ -123,6 +121,29 @@
       <a href="/contact" class="overlay-link">Contact</a>
     </nav>
   </div>
+
+  <div id="projectOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; flex-direction:column;">
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; height:52px; background:#ffffff; border-bottom:1px solid #eee;">
+      <span style="font-weight:600; color:#0D0F2B; font-size:15px;">Umami House</span>
+      <button onclick="closeProject()" style="background:linear-gradient(to right,#C084FC,#60A5FA); color:white; border:none; border-radius:8px; padding:6px 16px; cursor:pointer; font-size:14px;">✕ Close</button>
+    </div>
+    <iframe src="https://umami-asian-foods.netlify.app/" style="width:100%; height:calc(100vh - 52px); border:none;"></iframe>
+  </div>
+
+  <script>
+  function openProject(){
+    const overlay = document.getElementById('projectOverlay');
+    overlay.style.display = 'flex';
+    setTimeout(() => overlay.style.opacity = '1', 10);
+  }
+  function closeProject(){
+    const overlay = document.getElementById('projectOverlay');
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 300);
+  }
+  document.getElementById('projectOverlay').style.opacity = '0';
+  document.getElementById('projectOverlay').style.transition = 'opacity 0.3s ease';
+  </script>
 
 </body>
 </html>

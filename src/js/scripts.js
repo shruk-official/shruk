@@ -123,8 +123,6 @@ async function handleContactForm(){
         showFormMessage(msgEl, 'Something went wrong. Please try again.', false);
       } else {
         showFormMessage(msgEl, "Thanks! We'll be in touch within 24 hours ✅", true);
-        form.reset();
-        // After showing success message, auto-hide after 10 seconds
         setTimeout(() => {
           msgEl.style.transition = 'opacity 0.5s ease';
           msgEl.style.opacity = '0';
@@ -134,6 +132,7 @@ async function handleContactForm(){
             msgEl.style.transition = '';
           }, 500);
         }, 10000);
+        form.reset();
       }
     }catch(err){
       console.error(err);
