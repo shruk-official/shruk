@@ -42,7 +42,7 @@
           <h3 class="project-title">Café Management System</h3>
           <p class="project-desc">A fully functional café management web app — handling orders, menu management, and customer flow seamlessly</p>
           <div class="project-tags"><span class="tag">Web App</span><span class="tag">Full Stack</span><span class="tag">Management System</span></div>
-          <a class="btn btn-primary" href="https://splendid-mooncake-2f71dd.netlify.app/" target="_blank" rel="noopener">View Project</a>
+          <button class="btn btn-primary" id="viewProjectBtn">View Project</button>
         </article>
 
         <article class="project-card dimmed">
@@ -103,6 +103,24 @@
         <button id="declineCookies" class="btn btn-outline">Decline</button>
       </div>
     </div>
+  </div>
+
+  <!-- Project View Overlay -->
+  <div id="projectOverlay" class="project-overlay" aria-hidden="true">
+    <div class="project-overlay__bar">
+      <span class="project-overlay__title">Café Management System</span>
+      <button class="project-overlay__close" aria-label="Close project view">✕</button>
+    </div>
+    <iframe id="projectIframe" class="project-overlay__iframe" src="" title="Project Preview"></iframe>
+  </div>
+
+  <div id="mobileOverlay" class="mobile-overlay" aria-hidden="true">
+    <button id="overlayClose" class="overlay-close" aria-label="Close menu">×</button>
+    <nav class="overlay-nav">
+      <a href="/" class="overlay-link">Home</a>
+      <a href="/projects" class="overlay-link">Projects</a>
+      <a href="/contact" class="overlay-link">Contact</a>
+    </nav>
   </div>
 
   <script src="/src/js/scripts.js" type="module"></script>

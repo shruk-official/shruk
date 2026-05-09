@@ -124,6 +124,16 @@ async function handleContactForm(){
       } else {
         showFormMessage(msgEl, "Thanks! We'll be in touch within 24 hours ✅", true);
         form.reset();
+        // After showing success message, auto-hide after 10 seconds
+        setTimeout(() => {
+          msgEl.style.transition = 'opacity 0.5s ease';
+          msgEl.style.opacity = '0';
+          setTimeout(() => {
+            msgEl.textContent = '';
+            msgEl.style.opacity = '1';
+            msgEl.style.transition = '';
+          }, 500);
+        }, 10000);
       }
     }catch(err){
       console.error(err);
@@ -220,6 +230,40 @@ function getCookie(name){
   return null;
 }
 
+// Handle project view overlay on projects page
+function setupProjectOverlay(){
+  const btn = q('#viewProjectBtn');
+  const overlay = q('#projectOverlay');
+  const closeBtn = q('.project-overlay__close');
+  const iframe = q('#projectIframe');
+
+  if(!btn || !overlay) return;
+
+  const projectUrl = 'https://splendid-mooncake-2f71dd.netlify.app/';
+
+  btn.addEventListener('click', ()=>{
+    iframe.src = projectUrl;
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  });
+
+  closeBtn.addEventListener('click', ()=>{
+    overlay.classList.remove('show');
+    document.body.style.overflow = ''; // Restore scrolling
+    // Clear iframe src after animation to stop loading
+    setTimeout(() => {
+      iframe.src = '';
+    }, 300);
+  });
+
+  // Close on escape key
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && overlay.classList.contains('show')){
+      closeBtn.click();
+    }
+  });
+}
+
 // Init
 document.addEventListener('DOMContentLoaded', ()=>{
   setupHomepageIntro();
@@ -228,4 +272,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
   handleContactForm();
   setupCallModal();
   setupCookieBanner();
+  setupProjectOverlay();
 });
