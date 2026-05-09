@@ -59,10 +59,10 @@ function setupHomepageIntro(){
   }, 5000);
 }
 
-// Read supabase config from Vite env vars
+// Read supabase config from hardcoded values for mobile compatibility
 function getSupabaseConfig(){
-  const url = import.meta.env.VITE_SUPABASE_URL || '';
-  const key = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+  const url = 'https://jkqymxngwceeauxzevyp.supabase.co';
+  const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImprcXlteG5nd2NlZWF1eHpldnlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyODI3MjIsImV4cCI6MjA5Mzg1ODcyMn0.1F5NTTRVEggetTeUdboQtYPke6lZc94LcItJg7mlLng';
   return { url, key };
 }
 
@@ -96,18 +96,10 @@ async function handleContactForm(){
     const full_name = q('#fullName').value.trim();
     const email = q('#email').value.trim();
     const phone = q('#phone').value.trim();
-    const service = q('#service') ? q('#service').value.trim() : 'General Inquiry';
     const message = q('#message').value.trim();
 
     if(!/^\d{10}$/.test(phone)){
       showFormMessage(msgEl, 'Phone number must be exactly 10 digits.', false);
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = submitBtnDefault;
-      return;
-    }
-
-    if(!service){
-      showFormMessage(msgEl, 'Please select a service.', false);
       submitBtn.disabled = false;
       submitBtn.innerHTML = submitBtnDefault;
       return;
@@ -124,7 +116,7 @@ async function handleContactForm(){
     try{
       const supabase = createClient(url, key);
 
-      const payload = { full_name, email, phone, service, message };
+      const payload = { full_name, email, phone, message };
       const { error } = await supabase.from('contacts').insert([payload]);
       if(error){
         console.error('Supabase insert error', error);
