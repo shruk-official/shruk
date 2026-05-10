@@ -40,6 +40,11 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
 .btn-primary{background-image:var(--gradient);color:#fff;box-shadow:0 6px 18px rgba(192,132,252,0.18)}
 .btn-primary:hover{filter:brightness(1.02)}
 .btn-outline{background:var(--white);border:1px solid #e6e9f2;color:var(--navy)}
+.btn-glass{background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(192,132,252,0.4);color:#7B2FBE;font-weight:600;font-size:14px;padding:12px 28px;border-radius:12px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 16px rgba(192,132,252,0.15);position:relative;overflow:hidden}
+.btn-glass::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(192,132,252,0.15),rgba(96,165,250,0.15));opacity:0;transition:opacity 0.3s ease}
+.btn-glass:hover::before{opacity:1}
+.btn-glass:hover{border-color:rgba(192,132,252,0.7);box-shadow:0 8px 24px rgba(192,132,252,0.25);transform:translateY(-2px);color:#6B21A8}
+.btn-glass:active{transform:scale(0.97)}
 .btn.full{width:100%}
 .btn[disabled]{opacity:.85;cursor:not-allowed}
 .btn-spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;display:inline-block;margin-right:8px;animation:spin .8s linear infinite}
@@ -82,7 +87,8 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
 .project-desc{color:var(--muted-text)}
 .project-features{margin:12px 0}
 .feature-item{background:#f8fafc;border:1px solid #e6e9f2;border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:13px;color:var(--navy);line-height:1.4}
-.tag{display:inline-block;background:#f2f4fb;color:var(--navy);padding:6px 10px;border-radius:999px;font-size:12px;margin-right:8px}
+.project-tags{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0 1.25rem}
+.tag{padding:5px 14px;background:#F5F0FF;color:#6B21A8;border-radius:99px;font-size:12px;font-weight:500;letter-spacing:0.03em;white-space:nowrap}
 .project-card.dimmed{opacity:0.6}
 .project-overlay-badge{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);background-image:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;padding:8px 14px;border-radius:40px}
 
