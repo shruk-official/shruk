@@ -121,27 +121,92 @@
     </nav>
   </div>
 
-  <div id="projectOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; flex-direction:column;">
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; height:52px; background:#ffffff; border-bottom:1px solid #eee;">
+  <div id="projectOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; flex-direction:column; background:#fff;">
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; height:52px; background:#ffffff; border-bottom:1px solid #eee; flex-shrink:0;">
       <span style="font-weight:600; color:#0D0F2B; font-size:15px;">Umami House</span>
       <button onclick="closeProject()" style="background:linear-gradient(to right,#C084FC,#60A5FA); color:white; border:none; border-radius:8px; padding:6px 16px; cursor:pointer; font-size:14px;">✕ Close</button>
     </div>
-    <iframe src="https://umami-asian-foods.netlify.app/" style="width:100%; height:calc(100vh - 52px); border:none;"></iframe>
+    <div id="iframeWrapper" style="flex:1; position:relative; overflow:hidden;">
+      <iframe 
+        id="projectFrame"
+        src="" 
+        style="width:100%; height:100%; border:none; display:block;"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+      ></iframe>
+      <div id="iframeFallback" style="display:none; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:1.5rem; padding:2rem; text-align:center;">
+        <p style="color:#0D0F2B; font-size:16px; font-weight:500;">Unable to preview on this browser</p>
+        <p style="color:#6B7280; font-size:14px;">iOS Safari restricts embedded previews for some websites</p>
+        <a id="fallbackLink" href="" target="_blank" style="background:linear-gradient(to right,#C084FC,#60A5FA); color:white; padding:12px 28px; border-radius:10px; text-decoration:none; font-weight:600; font-size:15px;">Open Project →</a>
+      </div>
+    </div>
   </div>
 
   <script>
+  const PROJECT_URL = 'https://umami-asian-foods.netlify.app/';
+
   function openProject(){
     const overlay = document.getElementById('projectOverlay');
+    const frame = document.getElementById('projectFrame');
+    const fallback = document.getElementById('iframeFallback');
+    const fallbackLink = document.getElementById('fallbackLink');
+    const wrapper = document.getElementById('iframeWrapper');
+
+    // Reset state
+    frame.style.display = 'block';
+    fallback.style.display = 'none';
+    fallbackLink.href = PROJECT_URL;
+
+    // Set iframe src
+    frame.src = PROJECT_URL;
+
+    // Show overlay
     overlay.style.display = 'flex';
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s ease';
     setTimeout(() => overlay.style.opacity = '1', 10);
+
+    // Detect if iframe failed to load (iOS Safari blocks it)
+    const loadTimeout = setTimeout(() => {
+      // If iframe hasn't loaded after 4 seconds, show fallback
+      showFallback();
+    }, 4000);
+
+    frame.onload = () => {
+      clearTimeout(loadTimeout);
+      // Try to detect blank/blocked iframe on iOS
+      try {
+        const iframeDoc = frame.contentDocument || frame.contentWindow.document;
+        if (!iframeDoc || iframeDoc.body.innerHTML === '') {
+          showFallback();
+        }
+      } catch(e) {
+        // Cross-origin — this is normal, iframe is loading fine
+        clearTimeout(loadTimeout);
+      }
+    };
+
+    frame.onerror = () => {
+      clearTimeout(loadTimeout);
+      showFallback();
+    };
   }
+
+  function showFallback(){
+    const frame = document.getElementById('projectFrame');
+    const fallback = document.getElementById('iframeFallback');
+    frame.style.display = 'none';
+    fallback.style.display = 'flex';
+  }
+
   function closeProject(){
     const overlay = document.getElementById('projectOverlay');
+    const frame = document.getElementById('projectFrame');
     overlay.style.opacity = '0';
-    setTimeout(() => overlay.style.display = 'none', 300);
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      frame.src = ''; // Clear iframe src to stop loading
+    }, 300);
   }
-  document.getElementById('projectOverlay').style.opacity = '0';
-  document.getElementById('projectOverlay').style.transition = 'opacity 0.3s ease';
   </script>
 
   <script src="/src/js/scripts.js" type="module"></script>
