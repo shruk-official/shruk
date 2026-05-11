@@ -145,7 +145,7 @@
         id="projectFrame"
         src="" 
         style="width:100%; height:100%; border:none; display:block;"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+        sandbox="allow-scripts allow-same-origin allow-forms"
       ></iframe>
       <div id="iframeFallback" style="display:none; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:1.5rem; padding:2rem; text-align:center;">
         <p style="color:#0D0F2B; font-size:16px; font-weight:500;">Unable to preview on this browser</p>
@@ -165,7 +165,7 @@
         id="projectFrame2"
         src="" 
         style="width:100%; height:100%; border:none; display:block;"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+        sandbox="allow-scripts allow-same-origin allow-forms"
       ></iframe>
       <div id="iframeFallback2" style="display:none; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:1.5rem; padding:2rem; text-align:center;">
         <p style="color:#0D0F2B; font-size:16px; font-weight:500;">Unable to preview on this browser</p>
@@ -184,39 +184,37 @@
     const frame = document.getElementById('projectFrame');
     const fallback = document.getElementById('iframeFallback');
     const fallbackLink = document.getElementById('fallbackLink');
-    const wrapper = document.getElementById('iframeWrapper');
 
-    // Reset state
     frame.style.display = 'block';
     fallback.style.display = 'none';
     fallbackLink.href = PROJECT_URL;
-
-    // Set iframe src
     frame.src = PROJECT_URL;
 
-    // Show overlay
     overlay.style.display = 'flex';
     overlay.style.opacity = '0';
     overlay.style.transition = 'opacity 0.3s ease';
     setTimeout(() => overlay.style.opacity = '1', 10);
 
-    // Detect if iframe failed to load (iOS Safari blocks it)
-    const loadTimeout = setTimeout(() => {
-      // If iframe hasn't loaded after 4 seconds, show fallback
-      showFallback();
-    }, 4000);
+    const loadTimeout = setTimeout(() => showFallback(), 8000);
 
     frame.onload = () => {
       clearTimeout(loadTimeout);
-      // Try to detect blank/blocked iframe on iOS
       try {
         const iframeDoc = frame.contentDocument || frame.contentWindow.document;
-        if (!iframeDoc || iframeDoc.body.innerHTML === '') {
+        if (iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML !== '') {
+          frame.style.display = 'block';
+          fallback.style.display = 'none';
+        } else if (!iframeDoc) {
+          // Cross-origin, usually means it loaded fine but we can't inspect it
+          frame.style.display = 'block';
+          fallback.style.display = 'none';
+        } else {
           showFallback();
         }
       } catch(e) {
-        // Cross-origin — this is normal, iframe is loading fine
-        clearTimeout(loadTimeout);
+        // Cross-origin exception — site is loading, so show it
+        frame.style.display = 'block';
+        fallback.style.display = 'none';
       }
     };
 
@@ -227,10 +225,8 @@
   }
 
   function showFallback(){
-    const frame = document.getElementById('projectFrame');
-    const fallback = document.getElementById('iframeFallback');
-    frame.style.display = 'none';
-    fallback.style.display = 'flex';
+    document.getElementById('projectFrame').style.display = 'none';
+    document.getElementById('iframeFallback').style.display = 'flex';
   }
 
   function closeProject(){
@@ -239,7 +235,7 @@
     overlay.style.opacity = '0';
     setTimeout(() => {
       overlay.style.display = 'none';
-      frame.src = ''; // Clear iframe src to stop loading
+      frame.src = '';
     }, 300);
   }
 
@@ -259,15 +255,25 @@
     overlay.style.transition = 'opacity 0.3s ease';
     setTimeout(() => overlay.style.opacity = '1', 10);
 
-    const loadTimeout = setTimeout(() => showFallback2(), 4000);
+    const loadTimeout = setTimeout(() => showFallback2(), 8000);
 
     frame.onload = () => {
       clearTimeout(loadTimeout);
       try {
         const iframeDoc = frame.contentDocument || frame.contentWindow.document;
-        if (!iframeDoc || iframeDoc.body.innerHTML === '') showFallback2();
+        if (iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML !== '') {
+          frame.style.display = 'block';
+          fallback.style.display = 'none';
+        } else if (!iframeDoc) {
+          frame.style.display = 'block';
+          fallback.style.display = 'none';
+        } else {
+          showFallback2();
+        }
       } catch(e) {
-        clearTimeout(loadTimeout);
+        // Cross-origin exception — site is loading, so show it
+        frame.style.display = 'block';
+        fallback.style.display = 'none';
       }
     };
 
