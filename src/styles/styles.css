@@ -1600,7 +1600,7 @@ body {
 .mobile-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, rgba(88, 28, 135, 0.95), rgba(147, 51, 234, 0.95), rgba(192, 132, 252, 0.95));
+  background: transparent;
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   z-index: 120;
@@ -1941,4 +1941,41 @@ select {
   border: 1px solid rgba(192, 132, 252, 0.25);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
   padding: 40px;
+}
+
+/* Mobile cursor reset */
+@media (max-width: 900px) {
+  .cursor-dot,
+  .cursor-circle {
+    display: none !important;
+  }
+  
+  body, 
+  .btn-primary:hover, 
+  .btn-outline:hover, 
+  .btn-glass, 
+  .btn-glass:hover, 
+  .btn-glass::before, 
+  .btn-animated:hover, 
+  .card:hover {
+    cursor: auto !important;
+  }
+
+  a, 
+  button, 
+  .hamburger, 
+  .mobile-overlay .overlay-close, 
+  .footer-social-btn:hover, 
+  .footer-link-list a:hover, 
+  .footer-contact-list a:hover, 
+  .contact-section #submitBtn, 
+  .contact-section #callBtn {
+    cursor: pointer !important;
+  }
+
+  input, 
+  textarea, 
+  select {
+    cursor: text !important;
+  }
 }
