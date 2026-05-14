@@ -219,6 +219,7 @@ body {
   text-align: center;
   max-width: 800px;
   opacity: 0;
+  margin-top: -80px; /* Shifts the content up visually */
 }
 
 .hero-center.animate-in {
@@ -1363,6 +1364,34 @@ body {
 
 /* Mobile */
 @media (max-width:900px) {
+  .hero-center {
+    padding: 0 15px;
+    margin-top: -60px;
+  }
+
+  .hero-title {
+    font-size: clamp(38px, 10vw, 48px);
+    margin-bottom: 16px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    margin-bottom: 28px;
+    padding: 0 10px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 26px;

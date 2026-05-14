@@ -35,9 +35,14 @@ function setupHomepageIntro(){
   const content = q('#heroContent');
   if(content) {
       content.classList.add('animate-in');
-      setTimeout(() => {
+      if (sessionStorage.getItem(INTRO_KEY)) {
+          // If already played, trigger immediately without delay to prevent layout shifts
           typeWriterEffect();
-      }, 500); 
+      } else {
+          setTimeout(() => {
+              typeWriterEffect();
+          }, 500); 
+      }
   }
 }
 
@@ -61,8 +66,13 @@ function typeWriterEffect() {
     // Mark as played for this session
     sessionStorage.setItem(INTRO_KEY, 'true');
 
+    // Ensure it's empty to start with
+    title.innerHTML = "";
+    
+    // Set a min-height so it doesn't collapse while typing
+    title.style.minHeight = "2em";
+
     let i = 0;
-    title.innerHTML = ""; // Ensure it's empty
     
     function type() {
         if (i < text.length) {
