@@ -49,6 +49,18 @@ function typeWriterEffect() {
     if (!title) return;
     
     const text = "We Build the Future, One Line at a Time";
+    
+    // Check if animation has already played this session
+    if (sessionStorage.getItem(INTRO_KEY)) {
+        title.innerHTML = text;
+        if (sub) sub.style.opacity = '1';
+        if (actions) actions.style.opacity = '1';
+        return;
+    }
+    
+    // Mark as played for this session
+    sessionStorage.setItem(INTRO_KEY, 'true');
+
     let i = 0;
     title.innerHTML = ""; // Ensure it's empty
     
